@@ -18,8 +18,6 @@ void loop() {
     system("cls"); // Not safe!!!
 
     cout << "--------- Temperature Converter ---------" << endl;
-    //cout << "0: Celsius (deg. C)" << endl << "1: Fahrenheit (deg. F)" << endl << "2: Kelvin (K)" << endl;
-    //cout << endl << "Other settings" << endl;
     cout << "0: Begin converting" << endl;
     cout << "1: Select unit of conversion" << endl;
     cout << "2: Precision of conversions" << endl;
