@@ -6,8 +6,9 @@ using namespace std;
 string units[3] = {" deg. C", " deg. F", " K"};
 bool isPrecise = false;
 int unit = 0;
-int option;
+string option;
 string unitText = units[unit];
+string errorMessage = "null";
 
 double roundUp(double num, bool precise) {
     if (precise) return num;
@@ -16,7 +17,10 @@ double roundUp(double num, bool precise) {
 
 void loop() {
     system("cls"); // Not safe!!!
-
+    if (errorMessage != "null") {
+        cout << errorMessage << endl;
+        errorMessage = "null";
+    }
     cout << "--------- Temperature Converter ---------" << endl;
     cout << "0: Begin converting" << endl;
     cout << "1: Select unit of conversion" << endl;
@@ -26,13 +30,23 @@ void loop() {
     cout << "Choose option by entering their corresponding number: ";
     
     cin >> option;
+    try { int test = stoi(option); } catch (...) {
+        errorMessage = "Error: Option \"" + option + "\" is not a number.";
+        loop();
+    }
     cout << "-----------------------------------------" << endl;
 
-    switch (option) {
+    switch (stoi(option)) {
+        case 0: break;
         case 1:
             cout << "0: Celsius (deg. C)" << endl << "1: Fahrenheit (deg. F)" << endl << "2: Kelvin (K)" << endl;
             cout << "Choose unit by entering their corresponding number: ";
             cin >> unit;
+            if (sizeof(units)/sizeof(units[0]) == unit ) {
+                errorMessage = "Error: No such option \"" + to_string(unit) + "\".";
+                unit = 0;
+                loop();
+            }
             unitText = units[unit];
             break;
         case 2:
@@ -40,18 +54,29 @@ void loop() {
             char inp;
             cin >> inp;
             if (inp == 'y') isPrecise = !isPrecise;
+            else if (inp != 'n') {
+                errorMessage = "Error: Option \n" + to_string(inp) + "\" is not valid. Please note that inputs are case-sensitive!";
+                loop();
+            }
             break;
         
         default:
-            break;
+            errorMessage = "Error: No such option \"" + option + "\".";
+            loop();
     }
-    if (option != 0) loop();
+    if (stoi(option) != 0) loop();
     
     while (true) {
         string tempOption;
         cout << "Enter temperature (or option \"quit\" to return to menu): ";
         cin >> tempOption;
         if (tempOption == "quit") loop();
+        else {
+            try { tempOption = stoi(tempOption); } catch (...) {
+                errorMessage = "Error: Temperature is not a number.";
+                loop();
+            }
+        }
 
         double temperature = stod(tempOption);
 
