@@ -72,13 +72,13 @@ void loop() {
         cin >> tempOption;
         if (tempOption == "quit") loop();
         else {
-            try { tempOption = stoi(tempOption); } catch (...) {
+            try { long temp = stol(tempOption); } catch (...) {
                 errorMessage = "Error: Temperature is not a number.";
                 loop();
             }
         }
-
-        double temperature = stod(tempOption);
+        
+        long temperature = stol(tempOption);
 
         // Mathematical expressions for every temperature conversion
         const double c_to_f = roundUp((temperature * 1.8) + 32, isPrecise);
